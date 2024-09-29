@@ -46,11 +46,11 @@ class DartApp:
         self.bot_hits_label = tk.Label(root, text="Gegner wirft: ", font=("Arial", 18))
         self.bot_hits_label.pack(pady=10)
 
-        self.rounds_label = tk.Label(root, text="Gespielte Runden: 0", font=("Arial", 18))  # Display rounds played
-        self.rounds_label.pack(pady=10)
-
-        self.bot_round_points_label = tk.Label(root, text="Gegner Punkte diese Runde: 0", font=("Arial", 18))
+        self.bot_round_points_label = tk.Label(root, text="Gesamtwurf Gegner: 0", font=("Arial", 18))
         self.bot_round_points_label.pack(pady=10)
+        
+        self.rounds_label = tk.Label(root, text="Runde: 0", font=("Arial", 18))  # Display rounds played
+        self.rounds_label.pack(pady=10)
 
     def update_score(self):
         if self.is_player_turn:
@@ -110,10 +110,10 @@ class DartApp:
                 self.bot_total_points -= points
                 break
         self.rounds_played += 1  # Increment rounds played
-        self.rounds_label.config(text=f"Gespielte Runden: {self.rounds_played}")  # Update rounds display
+        self.bot_round_points_label.config(text=f"Gesamtwurf Gegner: {round_points}")  # Update round points display     
+        self.rounds_label.config(text=f"Runde: {self.rounds_played}")  # Update rounds display
         self.bot_score_label.config(text=f"{self.bot_score}")
         self.bot_hits_label.config(text=f"Gegner wirft: {', '.join(hits)}")
-        self.bot_round_points_label.config(text=f"Gegner Punkte diese Runde: {round_points}")  # Update round points display
         self.update_average()
         self.animate_total_score()  # Animate total score
         self.is_player_turn = True
