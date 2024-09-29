@@ -96,9 +96,9 @@ class DartApp:
             round_points += points
             self.bot_total_points += points
             self.bot_score -= points
-            self.bot_hits_label.config(text=f"Gegner wirft: {throw}")  # Update hits display with delay
-            self.root.update()  # Update the GUI
-            time.sleep(1)  # Delay for 1 second to simulate real throw
+            self.bot_hits_label.config(text=f"Gegner wirft: {', '.join(hits)}")
+            self.root.update()
+            time.sleep(0.5)  # Half the original delay
             if self.bot_score == 0:
                 messagebox.showinfo("Spielstand", f"Der Gegner hat mit {throw} ausgecheckt!")
                 self.bot_score_label.config(text=f"{self.bot_score}")
@@ -112,14 +112,13 @@ class DartApp:
         self.rounds_played += 1  # Increment rounds played
         self.rounds_label.config(text=f"Gespielte Runden: {self.rounds_played}")  # Update rounds display
         self.bot_score_label.config(text=f"{self.bot_score}")
-        self.bot_hits_label.config(text=f"Gegner wirft: {', '.join(hits)}")  # Update hits display
+        self.bot_hits_label.config(text=f"Gegner wirft: {', '.join(hits)}")
         self.bot_round_points_label.config(text=f"Gegner Punkte diese Runde: {round_points}")  # Update round points display
         self.update_average()
         self.animate_total_score()  # Animate total score
         self.is_player_turn = True
 
     def bot_checkout(self, score):
-        # Logic for bot to checkout based on current score
         if score == 40:
             return 40, "D20"  # Double 20
         elif score == 38:
@@ -185,10 +184,10 @@ class DartApp:
         for i in range(3):
             self.bot_score_label.config(fg='red')
             self.root.update()
-            time.sleep(0.2)
+            time.sleep(0.1)  # Half the original delay
             self.bot_score_label.config(fg='black')
             self.root.update()
-            time.sleep(0.2)
+            time.sleep(0.1)  # Half the original delay
 
     def reset_game(self):
         self.player_score = 501
