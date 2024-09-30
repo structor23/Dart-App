@@ -125,7 +125,10 @@ class DartApp:
             20: "D10", 18: "D9", 16: "D8", 14: "D7", 12: "D6", 
             10: "D5", 8: "D4", 6: "D3", 4: "D2", 2: "D1"
         }
-        return score, checkouts.get(score, f"{score}")
+        if score in checkouts:
+            return score, checkouts[score]
+        else:
+            return score, "Invalid Checkout"
 
     def simulate_bot_throw(self, aim):
         # Realistic simulation of a PDC player's throw
