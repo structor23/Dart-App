@@ -183,8 +183,8 @@ class DartApp:
         self.player_score_label.config(text="501")
         self.bot_score_label.config(text="501")
         self.bot_hits_label.config(text="Gegner wirft: ")  # Reset hits display
-        self.rounds_label.config(text="Gespielte Runden: 0")  # Reset rounds display
-        self.bot_round_points_label.config(text="Gegner Punkte diese Runde: 0")  # Reset round points display
+        self.bot_round_points_label.config(text="Gesamtwurf Gegner: 0")  # Reset round points display
+        self.rounds_label.config(text="Runde: 0")  # Reset rounds display
         self.player_average_label.config(text="0.0")  # Reset player average display
         self.bot_average_label.config(text="0.0")  # Reset bot average display
         self.is_player_turn = True
