@@ -119,31 +119,13 @@ class DartApp:
         self.is_player_turn = True
 
     def bot_checkout(self, score):
-        if score == 40:
-            return 40, "D20"  # Double 20
-        elif score == 38:
-            return 38, "D19"  # Double 19
-        elif score == 32:
-            return 32, "D16"  # Double 16
-        elif score == 24:
-            return 24, "D12"  # Double 12
-        elif score == 16:
-            return 16, "D8"  # Double 8
-        elif score == 8:
-            return 8, "D4"   # Double 4
-        elif score == 4:
-            return 4, "D2"   # Double 2
-        elif score == 2:
-            return 2, "D1"   # Double 1
-        else:
-            # If not a direct checkout, aim for single points to leave a double
-            if score > 20:
-                remaining = score - 20
-                if remaining % 2 == 0:  # Ensure the remaining score is a double out
-                    return 20, "20"
-                else:
-                    return score - 19, "19"  # Adjust to leave a double out
-            return score, f"{score}"
+        checkouts = {
+            40: "D20", 38: "D19", 36: "D18", 34: "D17", 32: "D16", 
+            30: "D15", 28: "D14", 26: "D13", 24: "D12", 22: "D11", 
+            20: "D10", 18: "D9", 16: "D8", 14: "D7", 12: "D6", 
+            10: "D5", 8: "D4", 6: "D3", 4: "D2", 2: "D1"
+        }
+        return score, checkouts.get(score, f"{score}")
 
     def simulate_bot_throw(self, aim):
         # Realistic simulation of a PDC player's throw
