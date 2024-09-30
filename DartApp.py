@@ -81,42 +81,46 @@ class DartApp:
             self.entry.delete(0, tk.END)
 
     def bot_turn(self):
-        hits = []  # List to store hits
-        round_points = 0  # Points scored in the current round
-        for dart in range(3):  # Simulate 3 darts per round
-            if self.bot_score > 40 or self.bot_score == 40:  # If bot score is greater than 40 or exactly 40
-                if dart < 2:  # First two darts aim for Triple 20
-                    points, throw = self.simulate_bot_throw(aim="triple20")
-                else:  # Third dart aims for Triple 19 if previous misses
-                    points, throw = self.simulate_bot_throw(aim="triple19")
-            else:
-                points, throw = self.bot_checkout(self.bot_score)  # Aim for checkout
+    hits = []  # List to store hits
+    round_points = 0  # Points scored in the current round
+    for dart in range(3):  # Simulate 3 darts per round
+        if self.bot_score > 40 or self.bot_score == 40:  # If bot score is greater than 40 or exactly 40
+            if dart < 2:  # First two darts aim for Triple 20
+                points, throw = self.simulate_bot_throw(aim="triple20")
+            else:  # Third dart aims for Triple 19 if previous misses
+                points, throw = self.simulate_bot_throw(aim="triple19")
+        else:
+            points, throw = self.bot_checkout(self.bot_score)  # Aim for checkout
 
-            hits.append(throw)
-            round_points += points
-            self.bot_total_points += points
-            self.bot_score -= points
-            self.bot_hits_label.config(text=f"Gegner wirft: {', '.join(hits)}")
-            self.root.update()
-            time.sleep(0.5)  # Half the original delay
-            if self.bot_score == 0:
-                messagebox.showinfo("Spielstand", f"Der Gegner hat mit {throw} ausgecheckt!")
-                self.bot_score_label.config(text=f"{self.bot_score}")
-                self.bot_hits_label.config(text=f"Gegner wirft: {', '.join(hits)}")
-                self.reset_game()
-                return
-            elif self.bot_score < 0:
-                self.bot_score += points  # Bot cannot checkout
-                self.bot_total_points -= points
-                break
-        self.rounds_played += 1  # Increment rounds played
-        self.bot_round_points_label.config(text=f"Gesamtwurf Gegner: {round_points}")  # Update round points display     
-        self.rounds_label.config(text=f"Runde: {self.rounds_played}")  # Update rounds display
-        self.bot_score_label.config(text=f"{self.bot_score}")
+        # Skip invalid checkouts
+        if throw == "Invalid Checkout":
+            continue
+
+        hits.append(throw)
+        round_points += points
+        self.bot_total_points += points
+        self.bot_score -= points
         self.bot_hits_label.config(text=f"Gegner wirft: {', '.join(hits)}")
-        self.update_average()
-        self.animate_total_score()  # Animate total score
-        self.is_player_turn = True
+        self.root.update()
+        time.sleep(0.5)  # Half the original delay
+        if self.bot_score == 0:
+            messagebox.showinfo("Spielstand", f"Der Gegner hat mit {throw} ausgecheckt!")
+            self.bot_score_label.config(text=f"{self.bot_score}")
+            self.bot_hits_label.config(text=f"Gegner wirft: {', '.join(hits)}")
+            self.reset_game()
+            return
+        elif self.bot_score < 0:
+            self.bot_score += points  # Bot cannot checkout
+            self.bot_total_points -= points
+            break
+    self.rounds_played += 1  # Increment rounds played
+    self.bot_round_points_label.config(text=f"Gesamtwurf Gegner: {round_points}")  # Update round points display     
+    self.rounds_label.config(text=f"Runde: {self.rounds_played}")  # Update rounds display
+    self.bot_score_label.config(text=f"{self.bot_score}")
+    self.bot_hits_label.config(text=f"Gegner wirft: {', '.join(hits)}")
+    self.update_average()
+    self.animate_total_score()  # Animate total score
+    self.is_player_turn = True
 
     def bot_checkout(self, score):
         checkouts = {
